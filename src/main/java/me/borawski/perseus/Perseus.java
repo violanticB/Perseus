@@ -30,7 +30,7 @@ public class Perseus {
         config = new File("config.yml");
         logger = new Logger(new File("log.txt"));
 
-        sqlManager = new SQLManager("localhost", 3306, "mcc", "root", "1024311");
+        sqlManager = new SQLManager("134.209.68.212", 3306, "data", "admin", "password");
         instanceManager = new InstanceManager();
 
         try {

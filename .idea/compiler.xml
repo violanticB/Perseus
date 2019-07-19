@@ -15,7 +15,7 @@
         <module name="perseus" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel target="12">
       <module name="perseus" target="1.8" />
     </bytecodeTargetLevel>
   </component>

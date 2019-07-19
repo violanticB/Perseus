@@ -55,17 +55,14 @@ public class ChannelHandler extends SimpleChannelInboundHandler<String> {
 
             instanceChannels.put(port + "", arg0.channel());
             Perseus.getProxyManager().sendServerRegistration(Perseus.getInstanceManager().getAssignmentID(port), new InetSocketAddress("localhost", port));
-            return;
         } else if(arg1.contains("REQUEST_NETWORK_INSTANCES")) {
             String message = "network_instances_refresh@" + InstanceUtil.getServers();
             sendMessage(arg0.channel(), message);
-            return;
         } else if(arg1.contains("SET_INSTANCE_STATUS")) {
             String[] message = arg1.split(":");
             String instance = message[2];
             String status = message[3];
             Perseus.getInstanceManager().getInstance(instance).setStatus(status);
-            return;
         } else if(arg1.contains("STAFF_CHAT")) {
             String[] message = arg1.split(":");
             String user = message[1];
@@ -75,8 +72,12 @@ public class ChannelHandler extends SimpleChannelInboundHandler<String> {
                 sendMessage(channel, "staff_chat_receive:" + user + ":" + msg);
             }));
 
-            return;
-        } else if(arg1.contains("SET_INSTANCE_PLAYERS")) {
+        }
+
+        /**
+         * Example: SET_INSTANCE_PLAYERS:
+         */
+        else if(arg1.contains("SET_INSTANCE_PLAYERS")) {
             String[] message = arg1.split(":");
             Integer players = Integer.valueOf(message[2]);
             String instance = message[1];
@@ -98,27 +99,27 @@ public class ChannelHandler extends SimpleChannelInboundHandler<String> {
     public void channelActive(final ChannelHandlerContext ctx) throws Exception{
         // Once session is secured, send a greeting and register the channel to the global channel
         // list so the channel received the messages from others.
-        final ChannelFuture cf = ctx.channel().writeAndFlush("Welcome to the network").sync();
-        cf.addListener(new FutureListener<Void>() {
-            public void operationComplete(Future<Void> future) {
-                if (!cf.isSuccess()) {
-                    System.out.println("[Perseus] [NET] : Could not send message to client");
-                }
-            }
-        });
-        ctx.channel().flush();
-        if(!cf.isSuccess()) {
-            Perseus.getLogger().log(LogLevel.ERROR, "Sending message to client failed");
-        }
+//        final ChannelFuture cf = ctx.channel().writeAndFlush("welcome").sync();
+//        cf.addListener(new FutureListener<Void>() {
+//            public void operationComplete(Future<Void> future) {
+//                if (!cf.isSuccess()) {
+//                    System.out.println("[Perseus] [NET] : Could not send message to client");
+//                }
+//            }
+//        });
+//        ctx.channel().flush();
+//        if(!cf.isSuccess()) {
+//            Perseus.getLogger().log(LogLevel.ERROR, "Sending message to client failed");
+//        }
 
         if(channels.contains(ctx.channel())) {
             return;
         }
 
+        channels.add(ctx.channel());
         Perseus.getLogger().log(LogLevel.INFO, "Instance client connected (" + ctx.channel().remoteAddress() + ")");
         Perseus.getLogger().log(LogLevel.INFO, "Total instances on network: " + channels.size());
-
-        channels.add(ctx.channel());
+        ctx.channel().writeAndFlush("welcome");
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Instance {
     public void start() {
         this.name = Perseus.getInstanceManager().getNextID(serverType);
         this.port = Perseus.getInstanceManager().getNextPort(serverType);
-        File file = new File("C:\\Users\\Ethan\\Desktop\\m\\instances\\" + name);
+        File file = new File("C:\\Users\\Ethan\\Desktop\\HGT\\instances\\" + name);
         if(!file.exists()) {
             file.mkdirs();
         }
@@ -44,10 +44,10 @@ public class Instance {
         ProcessBuilder processBuilder = new ProcessBuilder("java", "-server", "-Dcom.mojang.eula.agree=true", "-jar",
                 "-Xmx" + getServerType().getMaxRam() + "m",
                 "-Xms" + getServerType().getMinRam() + "m",
-                "C:\\Users\\Ethan\\Desktop\\m\\global\\spigot.jar",
+                "C:\\Users\\Ethan\\Desktop\\HGT\\global\\spigot.jar",
                 "--port", "" + port,
-                "--bukkit-settings", "C:\\Users\\Ethan\\Desktop\\m\\global\\bukkit.yml",
-                "--spigot-settings", "C:\\Users\\Ethan\\Desktop\\m\\global\\spigot.yml",
+                "--bukkit-settings", "C:\\Users\\Ethan\\Desktop\\HGT\\global\\bukkit.yml",
+                "--spigot-settings", "C:\\Users\\Ethan\\Desktop\\HGT\\global\\spigot.yml",
                 "--world", "world");
         processBuilder.directory(file);
         try {

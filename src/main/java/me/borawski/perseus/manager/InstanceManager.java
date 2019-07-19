@@ -10,6 +10,7 @@ import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -62,7 +63,8 @@ public class InstanceManager {
     }
 
     public void refreshServerTypes() throws SQLException {
-        PreparedStatement preparedStatement = Perseus.getSqlManager().getConnection().prepareStatement("SELECT * FROM servertypes");
+        setupTable();
+        PreparedStatement preparedStatement = Perseus.getSqlManager().getConnection().prepareStatement("SELECT * FROM server_type");
         preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getResultSet();
 
@@ -89,6 +91,22 @@ public class InstanceManager {
             ports.put(serverType.getName(), serverType.getPort());
             ids.put(serverType.getName(), 0);
         }
+    }
+
+    private void setupTable() {
+        try {
+            Statement statement = Perseus.getSqlManager().getConnection().createStatement();
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS server_type (" +
+                    "`name` VARCHAR(50)," +
+                    "`port` INTEGER," +
+                    "`plugins` VARCHAR(50)," +
+                    "`players` INTEGER," +
+                    "`memory` INTEGER" +
+                    ");");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /*

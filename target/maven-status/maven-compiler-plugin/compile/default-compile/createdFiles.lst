@@ -7,6 +7,7 @@ me\borawski\perseus\instance\ProxyInstance.class
 me\borawski\perseus\manager\SQLManager.class
 me\borawski\perseus\utils\math\UtilMath.class
 me\borawski\perseus\manager\InstanceManager$1.class
+me\borawski\perseus\instance\tournament\Tournament.class
 me\borawski\perseus\utils\player\Rank.class
 me\borawski\perseus\utils\packet\Packet.class
 me\borawski\perseus\commands\CommandListener$1.class
